@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -47,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
         populateHomeTimeline();
     }
 
+    // Fill timeline page with tweets
     private void populateHomeTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
@@ -54,12 +57,10 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess! " + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
-//                    List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     Log.e(TAG,"JSON Exception",e);
-//                    e.printStackTrace();
                 }
             }
 
@@ -68,5 +69,17 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.e(TAG,"onFailure " + response, throwable);
             }
         });
+    }
+
+    // Logout user and return to log in screen
+    public void onLogoutButton(View view) {
+        // forget logged in user
+        TwitterApp.getRestClient(this).clearAccessToken();
+
+        // navigate backwards to Login screen -- can also navigate backwards with finish()
+        Intent i = new Intent(this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+        startActivity(i);
     }
 }
