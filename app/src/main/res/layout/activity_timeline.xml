@@ -23,6 +23,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
-        android:text="Logout"
-        android:onClick="onLogoutButton"/>
+        android:background="#1DA1F2"
+        android:onClick="onLogoutButton"
+        android:text="@string/logout" />
 </RelativeLayout>

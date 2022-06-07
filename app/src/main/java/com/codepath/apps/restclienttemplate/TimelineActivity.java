@@ -63,9 +63,12 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // if compose item has been selected
         if(item.getItemId() == R.id.compose) {
-            Toast.makeText(this,"Compose",Toast.LENGTH_SHORT).show();
+            //Navigate to compose activity
+            Intent intent = new Intent(TimelineActivity.this,ComposeActivity.class);
+            startActivity(intent);
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     // Fill timeline page with tweets
