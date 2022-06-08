@@ -36,17 +36,18 @@ public class Tweet {
     // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-//        Log.d("Tweet","tweet: " + tweet);
-//        tweet.body = jsonObject.getString("full_text");
+
+        tweet.createdAt = jsonObject.getString("created_at");
+        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+        // Set tweet body
         if(jsonObject.has("full_text")) {
             tweet.body = jsonObject.getString("full_text");
         } else {
             tweet.body = jsonObject.getString("text");
         }
-        tweet.createdAt = jsonObject.getString("created_at");
-        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
 
-        Log.d("User", "Entities " + ((jsonObject.getJSONObject("entities"))));
+        // Set tweet media if exists
         if(jsonObject.getJSONObject("entities").has("media")) {
             tweet.mediaImageUrl = jsonObject.getJSONObject("entities").getJSONArray("media")
                     .getJSONObject(0).getString("media_url_https");
@@ -85,6 +86,10 @@ public class Tweet {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public String getMediaImageUrl() {
+        return mediaImageUrl;
     }
 
 

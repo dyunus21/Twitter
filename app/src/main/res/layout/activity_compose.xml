@@ -43,7 +43,8 @@
         app:layout_constraintEnd_toStartOf="@+id/tilCompose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnExit"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btnTweet"

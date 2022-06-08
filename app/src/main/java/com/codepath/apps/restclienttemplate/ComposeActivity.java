@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -27,6 +29,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     EditText etCompose;
     Button btnTweet;
+//    ImageView ivProfileImage;
 
     TwitterClient client;
 
@@ -38,6 +41,10 @@ public class ComposeActivity extends AppCompatActivity {
         // initialize views
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
+//        ivProfileImage = findViewById(R.id.ivProfileImage);
+//        Glide.with(this)
+//                .load(tweet.user.publicImageUrl)
+//                .into(ivProfileImage);
         client = TwitterApp.getRestClient(this);
 
         // Button onClickListener

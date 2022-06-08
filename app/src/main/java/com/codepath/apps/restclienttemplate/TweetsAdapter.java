@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
     Context context;
     List<Tweet> tweets;
+
+    public static final String TAG = "TweetsAdapter";
 
 
     // Press in the contacts and list of tweets
@@ -63,7 +68,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
 
     // Define a viewholder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView ivProfileImage;
         TextView tvScreenName;
@@ -92,7 +97,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .into(ivProfileImage);
             tvTimestamp.setText(tweet.timestamp);
 
-
+            // If media exists in tweet, set media to be visible
             if(tweet.mediaImageUrl != "None") {
                 ivMedia.setVisibility(View.VISIBLE);
                 Glide.with(context)
@@ -100,7 +105,25 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         .into(ivMedia);
             }
 
-            Log.d("TweetsAdapter", tweet.mediaImageUrl);
+//            Log.d("TweetsAdapter", tweet.mediaImageUrl);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getBindingAdapterPosition();
+            Log.d(TAG, "inOnClick!");
+            if (position != RecyclerView.NO_POSITION) {
+                Tweet tweet = tweets.get(position);
+                // create intent for the new activity
+                Intent intent = new Intent(context, TweetDetailActivity.class);
+                // serialize the movie using parceler, use its short name as a key
+
+                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                // show the activity
+                context.startActivity(intent);
+            }
         }
     }
+
+
 }
