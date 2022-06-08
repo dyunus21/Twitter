@@ -1,5 +1,7 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,18 +12,31 @@ import java.util.List;
 @Parcel
 public class Tweet {
 
+    public static final String TAG = "Tweet";
+
     // Define Tweet variables
     public String body;
     public String createdAt;
     public User user;
+//    public String mediaImageUrl;
 
     public Tweet(){}
     // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.body = jsonObject.getString("text");
+//        Log.d("Tweet","tweet: " + tweet);
+//        tweet.body = jsonObject.getString("full_text");
+        if(jsonObject.has("full_text")) {
+            tweet.body = jsonObject.getString("full_text");
+        } else {
+            tweet.body = jsonObject.getString("text");
+        }
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+//        Log.d("User", "Entities " + ((jsonObject.getJSONObject("entities"))));
+//        tweet.mediaImageUrl = jsonObject.getJSONObject("entities").getJSONArray("media")
+//                    .getJSONObject(0).getString("media_url_https");
+//        Log.d(TAG, tweet.mediaImageUrl);
         return tweet;
     }
 
