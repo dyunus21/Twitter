@@ -56,7 +56,7 @@ public class Tweet {
             tweet.mediaImageUrl = "None";
         }
 
-        Log.d(TAG, tweet.mediaImageUrl);
+//        Log.d(TAG, tweet.mediaImageUrl);
         tweet.timestamp = tweet.getRelativeTimeAgo(tweet.createdAt);
 
         return tweet;
