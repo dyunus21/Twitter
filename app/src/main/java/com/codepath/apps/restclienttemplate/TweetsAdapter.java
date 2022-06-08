@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -69,22 +68,29 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvScreenName;
         TextView tvBody;
-        ImageView ivMedia;
+//        ImageView ivMedia;
+        TextView tvTimestamp;
+        TextView tvName;
 
         public ViewHolder(@NonNull View item_view) {
             super(item_view);
             ivProfileImage = item_view.findViewById(R.id.ivProfileImage);
             tvScreenName = item_view.findViewById(R.id.tvScreenName);
+            tvName = item_view.findViewById(R.id.tvName);
             tvBody = item_view.findViewById(R.id.tvBody);
+            tvTimestamp = item_view.findViewById(R.id.tvTimestamp);
 //            ivMedia = item_view.findViewById(R.id.ivMedia);/
         }
 
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
+            tvScreenName.setText("@" + tweet.user.screenName);
+            tvName.setText(tweet.user.name);
+            Log.d("TweetsAdapter",tweet.user.name);
             Glide.with(context)
                     .load(tweet.user.publicImageUrl)
                     .into(ivProfileImage);
+            tvTimestamp.setText(tweet.timestamp);
 //            Glide.with(context)
 //                    .load(tweet.user.mediaImageUrl)
 //                    .into(ivMedia);
