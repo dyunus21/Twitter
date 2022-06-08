@@ -24,7 +24,7 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String timestamp;
-//    public String mediaImageUrl;
+    public String mediaImageUrl;
 
     // variables for relativeTime
     private static final int SECOND_MILLIS = 1000;
@@ -46,13 +46,17 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
 
-//        Log.d("User", "Entities " + ((jsonObject.getJSONObject("entities"))));
-//        tweet.mediaImageUrl = jsonObject.getJSONObject("entities").getJSONArray("media")
-//                    .getJSONObject(0).getString("media_url_https");
-//        Log.d(TAG, tweet.mediaImageUrl);
-        Log.d(TAG,"Date: " + tweet.getRelativeTimeAgo(tweet.createdAt));
+        Log.d("User", "Entities " + ((jsonObject.getJSONObject("entities"))));
+        if(jsonObject.getJSONObject("entities").has("media")) {
+            tweet.mediaImageUrl = jsonObject.getJSONObject("entities").getJSONArray("media")
+                    .getJSONObject(0).getString("media_url_https");
+        }
+        else {
+            tweet.mediaImageUrl = "None";
+        }
+
+        Log.d(TAG, tweet.mediaImageUrl);
         tweet.timestamp = tweet.getRelativeTimeAgo(tweet.createdAt);
-        Log.d(TAG,"JSONObject " +jsonObject.getJSONObject("user"));
 
         return tweet;
     }

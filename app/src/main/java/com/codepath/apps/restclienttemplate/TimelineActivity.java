@@ -94,6 +94,10 @@ public class TimelineActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE);
             return true;
         }
+        if(item.getItemId() == R.id.logout) {
+            onLogoutButton(rvTweets);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

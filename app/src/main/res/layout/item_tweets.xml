@@ -49,13 +49,15 @@
         android:layout_toEndOf="@+id/tvScreenName"
         tools:text="Timestamp" />
 
-    <!--    <ImageView-->
-<!--        android:id="@+id/ivMedia"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/tvBody"-->
-<!--        android:layout_alignStart="@+id/tvBody"-->
-<!--        android:layout_marginStart="0dp"-->
-<!--        android:layout_marginTop="2dp"-->
-<!--        tools:srcCompat="@tools:sample/avatars" />-->
+    <ImageView
+        android:id="@+id/ivMedia"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignStart="@+id/tvBody"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:foregroundGravity="center"
+        android:visibility="gone"
+        tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>

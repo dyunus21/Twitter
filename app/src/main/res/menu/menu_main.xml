@@ -3,8 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:icon="@drawable/ic_launcher_twitter_round"
+        android:title="Item"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/compose"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/vector_compose_fab"
         android:title="Compose"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout" />
 </menu>
