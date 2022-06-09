@@ -82,53 +82,48 @@
         android:id="@+id/btnReply"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/ic_reply"
         android:backgroundTint="@android:color/black"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBody"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
-        android:clickable="true"/>
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnRetweet"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
         android:background="@drawable/ic_vector_retweet_stroke"
-        app:layout_constraintEnd_toStartOf="@+id/btnLike"
+        android:clickable="true"
         app:layout_constraintStart_toEndOf="@+id/btnReply"
         app:layout_constraintTop_toTopOf="@+id/btnReply"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
-        android:clickable="true"/>
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnLike"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="216dp"
+        android:layout_marginStart="60dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/ic_vector_heart_stroke"
+        android:clickable="true"
         app:layout_constraintEnd_toStartOf="@+id/btnShare"
-        app:layout_constraintStart_toEndOf="@+id/btnReply"
+        app:layout_constraintStart_toEndOf="@+id/btnRetweet"
         app:layout_constraintTop_toTopOf="@+id/btnRetweet"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
-        android:clickable="true"/>
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnShare"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="60dp"
-        android:layout_marginEnd="20dp"
         android:background="@android:drawable/ic_menu_share"
         android:backgroundTint="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.828"
+        android:clickable="true"
         app:layout_constraintStart_toEndOf="@+id/btnLike"
         app:layout_constraintTop_toTopOf="@+id/btnLike"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
-        android:clickable="true"/>
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

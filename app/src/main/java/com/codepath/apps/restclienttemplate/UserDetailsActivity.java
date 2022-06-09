@@ -35,6 +35,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         binding.tvDescription.setText(user.getDescription());
         binding.tvFollowing.setText(user.getFollowing() + " Following");
         binding.tvFollowers.setText(user.getFollowers() + " Followers");
+        binding.tvLocation.setText(user.getLocation());
 
         Glide.with(this).load(user.getPublicImageUrl()).into(binding.ivProfileImage);
         Glide.with(this).load(user.getProfileBannerUrl()).into(binding.ivBackgroundImage);
