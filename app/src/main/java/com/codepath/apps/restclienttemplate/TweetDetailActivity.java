@@ -46,6 +46,10 @@ public class TweetDetailActivity extends AppCompatActivity {
                     .into(binding.ivMedia);
         }
 
+        if(tweet.favorited)
+            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
+        else
+            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
         //Like Tweet
         binding.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,10 +63,10 @@ public class TweetDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         Log.i(TAG, "Favorited/Unfavorited tweet: " + tweet);
-                        if (tweet.favorited)
-                            binding.btnLike.setBackgroundColor(Color.parseColor("#ff0000"));
+                        if(tweet.favorited)
+                            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
                         else
-                            binding.btnLike.setBackgroundColor(R.drawable.ic_vector_heart_stroke);
+                            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
                     }
 
                     @Override

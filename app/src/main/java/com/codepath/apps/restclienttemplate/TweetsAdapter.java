@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -106,68 +109,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             btnReply = (Button) item_view.findViewById(R.id.btnReply);
 
 
-//            // Reply to Tweet
-//            btnReply = item_view.findViewById(R.id.btnReply);
-//            btnReply.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d(TAG,"onReply");
-//                    return;
-//                }
-//            });
-//
-//            // Retweet Tweet
-//            btnRetweet = item_view.findViewById(R.id.btnRetweet);
-//            btnRetweet.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d(TAG,"onRetweet");
-//                    return;
-//
-//                }
-//            });
-
-//            // Like Tweet
-//            btnLike = (Button) item_view.findViewById(R.id.btnLike);
-//            btnLike.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d(TAG,"onLike");
-//                    // Make an API call to Twitter to publish the tweet
-//                    client.likeTweet(, new JsonHttpResponseHandler() {
-//                        @Override
-//                        public void onSuccess(int statusCode, Headers headers, JSON json) {
-//                            try {
-//                                Tweet tweet = Tweet.fromJson(json.jsonObject);
-//                                Log.i(TAG,"Published tweet says: " + tweet);
-//                                Intent intent = new Intent(ComposeActivity.this,TimelineActivity.class);
-//                                intent.putExtra("tweet", Parcels.wrap(tweet));
-//                                // set result and bundle code for response
-//                                setResult(RESULT_OK,intent);
-//                                finish();
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-//                            Log.e(TAG,"onFailure to publish tweet!", throwable);
-//                        }
-//                    });
-//                }
-//            });
-
-//            // Share tweet
-//            btnShare = item_view.findViewById(R.id.btnShare);
-//            btnShare.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d(TAG,"onShare");
-//                    return;
-//                }
-//            });
-
             itemView.setOnClickListener(this);
         }
 
@@ -192,6 +133,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             // Like Tweet
 
+            if(tweet.favorited)
+                btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
+            else
+                btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+
             btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -205,9 +151,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG,"Favorited/Unfavorited tweet: " + tweet);
                             if(tweet.favorited)
-                                btnLike.setBackgroundColor(Color.parseColor("#ff0000"));
+                                btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
                             else
-                                btnLike.setBackgroundColor(R.drawable.ic_vector_heart_stroke);
+                                btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
                         }
 
                         @Override
@@ -215,20 +161,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             Log.e(TAG,"onFailure to favorite/unfavorite tweet!", throwable);
                         }
                     });
-
-//                    // Make an API call to Twitter to publish the tweet
-//                    client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
-//                        @Override
-//                        public void onSuccess(int statusCode, Headers headers, JSON json) {
-//                                Log.i(TAG,"Favorited tweet: " + tweet);
-//                                btnLike.setBackgroundColor(Color.parseColor("#ff0000"));
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-//                            Log.e(TAG,"onFailure to favorite tweet!", throwable);
-//                        }
-//                    });
                 }
             });
 
