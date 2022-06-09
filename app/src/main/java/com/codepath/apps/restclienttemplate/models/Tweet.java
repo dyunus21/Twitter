@@ -25,6 +25,7 @@ public class Tweet {
     public User user;
     public String timestamp;
     public String mediaImageUrl;
+    public String embedUrl;
     public long id;
     public boolean favorited;
     public boolean retweeted;
@@ -40,6 +41,8 @@ public class Tweet {
     // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
+
+        Log.d(TAG,"Tweet: " + jsonObject);
 
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
@@ -62,8 +65,21 @@ public class Tweet {
         }
         else {
             tweet.mediaImageUrl = "None";
-        }
 
+        }
+       if(jsonObject.getJSONObject("entities").getJSONArray("urls").length() != 0) {
+            tweet.embedUrl = jsonObject.getJSONObject("entities").getJSONArray("urls")
+                    .getJSONObject(0).getString("expanded_url");
+        }
+        else {
+           tweet.embedUrl = "None";
+       }
+//        if(jsonObject.getJSONObject("entities").getJSONArray("urls").length() != 0) {
+//            String web_url = jsonObject.getJSONObject("entities").getJSONArray("urls").getJSONObject(0).getString("expanded_url");
+//            String url = "https://publish.twitter.com/oembed?" + "url=" + web_url;
+//            Log.d(TAG, url);
+//            tweet.embedUrl = url;
+//        }
 //        Log.d(TAG, tweet.mediaImageUrl);
         tweet.timestamp = tweet.getRelativeTimeAgo(tweet.createdAt);
 

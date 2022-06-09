@@ -1,11 +1,10 @@
 package com.codepath.apps.restclienttemplate;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.databinding.ActivityTweetDetailsBinding;
@@ -32,21 +31,21 @@ public class TweetDetailActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         client = TwitterApp.getRestClient(this);
-        tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
-        Log.d(TAG,"tweet "  + tweet);
+        tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
+        Log.d(TAG, "tweet " + tweet);
 
         binding.tvName.setText(tweet.getUser().getName());
         binding.tvScreenName.setText("@" + tweet.getUser().getScreenName());
         binding.tvBody.setText(tweet.getBody());
         Glide.with(this).load(tweet.getUser().getPublicImageUrl()).into(binding.ivProfileImage);
-        if(tweet.mediaImageUrl != "None") {
+        if (tweet.mediaImageUrl != "None") {
             binding.ivMedia.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(tweet.mediaImageUrl)
                     .into(binding.ivMedia);
         }
 
-        if(tweet.favorited)
+        if (tweet.favorited)
             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
         else
             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
@@ -64,7 +63,7 @@ public class TweetDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         Log.i(TAG, "Favorited/Unfavorited tweet: " + tweet);
-                        if(tweet.favorited)
+                        if (tweet.favorited)
                             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
                         else
                             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
@@ -79,23 +78,23 @@ public class TweetDetailActivity extends AppCompatActivity {
         });
 
         // Retweet
-        if(tweet.isRetweeted())
+        if (tweet.isRetweeted())
             binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
         else
             binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
         binding.btnRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"onRetweet " + tweet.getId());
+                Log.d(TAG, "onRetweet " + tweet.getId());
 
                 String action = tweet.isRetweeted() ? "unretweet" : "retweet";
-                Log.d(TAG,action + tweet.isRetweeted());
+                Log.d(TAG, action + tweet.isRetweeted());
 
-                client.reTweet(tweet.id,action, new JsonHttpResponseHandler() {
+                client.reTweet(tweet.id, action, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
-                        Log.i(TAG,action + " tweet: " + tweet);
-                        if(tweet.isRetweeted())
+                        Log.i(TAG, action + " tweet: " + tweet);
+                        if (tweet.isRetweeted())
                             binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
                         else
                             binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
@@ -103,7 +102,7 @@ public class TweetDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                        Log.e(TAG,"onFailure to " + action + " tweet!", throwable);
+                        Log.e(TAG, "onFailure to " + action + " tweet!", throwable);
                     }
                 });
             }

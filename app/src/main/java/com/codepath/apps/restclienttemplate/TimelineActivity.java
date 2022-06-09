@@ -103,6 +103,12 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    public void onReplySelected(Tweet tweet) {
+//        Intent intent = new Intent(this,ComposeActivity.class);
+//        intent.putExtra(Tweet.class.getSimpleName(),Parcels.wrap(tweet));
+//        startActivityForResult(intent,REQUEST_CODE);
+//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
