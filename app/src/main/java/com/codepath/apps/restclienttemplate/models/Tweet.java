@@ -116,7 +116,7 @@ public class Tweet {
         return mediaImageUrl;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
