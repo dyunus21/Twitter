@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.codepath.apps.restclienttemplate.databinding.ActivityComposeBinding;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -30,9 +32,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
-    // Define Views
+    ActivityTimelineBinding binding;
     TwitterClient client;
-    RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
@@ -41,16 +42,17 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        binding = ActivityTimelineBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         client = TwitterApp.getRestClient(this);
 
-        rvTweets = findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rvTweets.setLayoutManager(linearLayoutManager);
-        rvTweets.setAdapter(adapter);
+        binding.rvTweets.setLayoutManager(linearLayoutManager);
+        binding.rvTweets.setAdapter(adapter);
         populateHomeTimeline(0);
 
         swipeContainer = findViewById(R.id.swipeContainer);
@@ -75,7 +77,7 @@ public class TimelineActivity extends AppCompatActivity {
                 populateHomeTimeline(tweetId);
             }
         };
-        rvTweets.addOnScrollListener(scrollListener);
+        binding.rvTweets.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -92,7 +94,7 @@ public class TimelineActivity extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == R.id.logout) {
-            onLogoutButton(rvTweets);
+            onLogoutButton(binding.rvTweets);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -110,7 +112,7 @@ public class TimelineActivity extends AppCompatActivity {
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
             tweets.add(0, tweet);
             adapter.notifyItemInserted(0);
-            rvTweets.smoothScrollToPosition(0);
+            binding.rvTweets.smoothScrollToPosition(0);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

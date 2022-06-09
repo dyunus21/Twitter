@@ -29,7 +29,6 @@ public class TweetDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityTweetDetailsBinding.inflate(getLayoutInflater());
-        // layout of activity is stored in a special property called root
         View view = binding.getRoot();
         setContentView(view);
         client = TwitterApp.getRestClient(this);

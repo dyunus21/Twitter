@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ActivityComposeBinding;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTweetDetailsBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -27,32 +29,23 @@ public class ComposeActivity extends AppCompatActivity {
     public static final String TAG = "ComposeActivity";
     private final int REQUEST_CODE = 20;
 
-    EditText etCompose;
-    Button btnTweet;
-//    ImageView ivProfileImage;
-
     TwitterClient client;
+    ActivityComposeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compose);
-
-        // initialize views
-        etCompose = findViewById(R.id.etCompose);
-        btnTweet = findViewById(R.id.btnTweet);
-//        ivProfileImage = findViewById(R.id.ivProfileImage);
-//        Glide.with(this)
-//                .load(tweet.user.publicImageUrl)
-//                .into(ivProfileImage);
+        binding = ActivityComposeBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         client = TwitterApp.getRestClient(this);
 
         // Button onClickListener
-        btnTweet.setOnClickListener(new View.OnClickListener() {
+        binding.btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Validate tweetContent
-                String tweetContent = etCompose.getText().toString();
+                String tweetContent = binding.etCompose.getText().toString();
                 if (tweetContent.isEmpty()) {
                     Toast.makeText(ComposeActivity.this,"Sorry, your tweet cannot be empty!", Toast.LENGTH_LONG).show();
                     return;
@@ -89,9 +82,7 @@ public class ComposeActivity extends AppCompatActivity {
             }
         });
 
-        // Return to Timeline onClickListener
-        Button btnExit = findViewById(R.id.btnExit);
-        btnExit.setOnClickListener(new View.OnClickListener() {
+        binding.btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

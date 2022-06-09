@@ -20,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ItemTweetsBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -38,15 +39,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     public static final String TAG = "TweetsAdapter";
     public static final int REQUEST_CODE = 20;
+    ItemTweetsBinding binding;
 
-
-    // Press in the contacts and list of tweets
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
         this.tweets = tweets;
     }
 
-    // For each row, inflate a layout for a tweet
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,9 +56,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // bind value based on position of element
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Get the data at position
         Tweet tweet = tweets.get(position);
-        // bind the data to viewholder
         holder.bind(tweet);
     }
 
@@ -68,72 +65,44 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
-    // Clean all elements of the recycler
     public void clear() {
         tweets.clear();
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Tweet> list) {
         tweets.addAll(list);
         notifyDataSetChanged();
     }
 
 
-    // Define a viewholder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        ImageView ivProfileImage;
-        TextView tvScreenName;
-        TextView tvBody;
-        ImageView ivMedia;
-        TextView tvTimestamp;
-        TextView tvName;
-        Button btnReply;
-        Button btnRetweet;
-        Button btnLike;
-//        Button btnShare;
         TwitterClient client;
-//        TwitterApp
 
         public ViewHolder(@NonNull View item_view) {
             super(item_view);
             client = TwitterApp.getRestClient(context);
-            ivProfileImage = item_view.findViewById(R.id.ivProfileImage);
-            tvScreenName = item_view.findViewById(R.id.tvScreenName);
-            tvName = item_view.findViewById(R.id.tvName);
-            tvBody = item_view.findViewById(R.id.tvBody);
-            tvTimestamp = item_view.findViewById(R.id.tvTimestamp);
-            ivMedia = item_view.findViewById(R.id.ivMedia);
-
-            btnLike = (Button) item_view.findViewById(R.id.btnLike);
-            btnRetweet = (Button) item_view.findViewById(R.id.btnRetweet);
-            btnReply = (Button) item_view.findViewById(R.id.btnReply);
-
-
             itemView.setOnClickListener(this);
         }
 
         public void bind(Tweet tweet) {
-            tvBody.setText(tweet.body);
-            tvScreenName.setText("@" + tweet.user.screenName);
-            tvName.setText(tweet.user.name);
-//            Log.d("TweetsAdapter",tweet.user.name);
+            binding.tvBody.setText(tweet.body);
+            binding.tvScreenName.setText("@" + tweet.user.screenName);
+            binding.tvName.setText(tweet.user.name);
             Glide.with(context)
                     .load(tweet.user.publicImageUrl)
-                    .into(ivProfileImage);
-            tvTimestamp.setText(tweet.timestamp);
+                    .into(binding.ivProfileImage);
+            binding.tvTimestamp.setText(tweet.timestamp);
 
             // If media exists in tweet, set media to be visible
             if(tweet.mediaImageUrl != "None") {
-                ivMedia.setVisibility(View.VISIBLE);
+                binding.ivMedia.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(tweet.mediaImageUrl)
-                        .into(ivMedia);
+                        .into(binding.ivMedia);
             }
 
-            ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            binding.ivProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG,"Directed to " + tweet.getUser().getName() + "'s profile");
@@ -145,11 +114,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             // Like Tweet
 
             if(tweet.favorited)
-                btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
+                binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
             else
-                btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
 
-            btnLike.setOnClickListener(new View.OnClickListener() {
+            binding.btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG,"onLike " + tweet.id);
@@ -162,9 +131,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG,"Favorited/Unfavorited tweet: " + tweet);
                             if(tweet.favorited)
-                                btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
+                                binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
                             else
-                                btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                                binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
                         }
 
                         @Override
@@ -177,11 +146,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             // Retweet
             if(tweet.isRetweeted())
-                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+                binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
             else
-                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
 
-            btnRetweet.setOnClickListener(new View.OnClickListener() {
+            binding.btnRetweet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG,"onRetweet " + tweet.getId());
@@ -194,9 +163,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG,action + " tweet: " + tweet);
                             if(tweet.isRetweeted())
-                                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+                                binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
                             else
-                                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                                binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
                         }
 
                         @Override
@@ -231,12 +200,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             Log.d(TAG, "inOnClick!");
             if (position != RecyclerView.NO_POSITION) {
                 Tweet tweet = tweets.get(position);
-                // create intent for the new activity
                 Intent intent = new Intent(context, TweetDetailActivity.class);
-                // serialize the movie using parceler, use its short name as a key
-
                 intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-                // show the activity
                 context.startActivity(intent);
             }
         }
