@@ -25,6 +25,7 @@ public class Tweet {
     public User user;
     public String timestamp;
     public String mediaImageUrl;
+    public int id;
 
     // variables for relativeTime
     private static final int SECOND_MILLIS = 1000;
@@ -39,6 +40,7 @@ public class Tweet {
 
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.id = jsonObject.getInt("id");
 
         // Set tweet body
         if(jsonObject.has("full_text")) {

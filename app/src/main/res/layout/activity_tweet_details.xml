@@ -29,13 +29,15 @@
 
     <TextView
         android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvScreenName"
         android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
+        android:layout_marginEnd="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"
         tools:text="This is my tweet!!" />
@@ -74,20 +76,22 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/ic_reply"
+        android:backgroundTint="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
+        />
 
     <Button
         android:id="@+id/btnRetweet"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
         android:background="@drawable/ic_vector_retweet_stroke"
         app:layout_constraintEnd_toStartOf="@+id/btnLike"
-        app:layout_constraintHorizontal_bias="0.228"
         app:layout_constraintStart_toEndOf="@+id/btnReply"
         app:layout_constraintTop_toTopOf="@+id/btnReply"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -97,7 +101,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="216dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/ic_vector_heart_stroke"
+        app:layout_constraintEnd_toStartOf="@+id/btnShare"
         app:layout_constraintStart_toEndOf="@+id/btnReply"
         app:layout_constraintTop_toTopOf="@+id/btnRetweet"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -106,7 +112,8 @@
         android:id="@+id/btnShare"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="20dp"
         android:background="@android:drawable/ic_menu_share"
         android:backgroundTint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"

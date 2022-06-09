@@ -2,10 +2,12 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,10 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
+import org.json.JSONException;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
     Context context;
@@ -76,18 +82,87 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivMedia;
         TextView tvTimestamp;
         TextView tvName;
-
-        RecyclerView rvTweets;
+//        Button btnReply;
+//        Button btnRetweet;
+        Button btnLike;
+//        Button btnShare;
+        TwitterClient client;
 
         public ViewHolder(@NonNull View item_view) {
             super(item_view);
+            client = TwitterApp.getRestClient(context);
             ivProfileImage = item_view.findViewById(R.id.ivProfileImage);
             tvScreenName = item_view.findViewById(R.id.tvScreenName);
             tvName = item_view.findViewById(R.id.tvName);
             tvBody = item_view.findViewById(R.id.tvBody);
             tvTimestamp = item_view.findViewById(R.id.tvTimestamp);
             ivMedia = item_view.findViewById(R.id.ivMedia);
-            rvTweets = item_view.findViewById(R.id.rvTweets);
+
+            btnLike = (Button) item_view.findViewById(R.id.btnLike);
+
+
+//            // Reply to Tweet
+//            btnReply = item_view.findViewById(R.id.btnReply);
+//            btnReply.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d(TAG,"onReply");
+//                    return;
+//                }
+//            });
+//
+//            // Retweet Tweet
+//            btnRetweet = item_view.findViewById(R.id.btnRetweet);
+//            btnRetweet.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d(TAG,"onRetweet");
+//                    return;
+//
+//                }
+//            });
+
+//            // Like Tweet
+//            btnLike = (Button) item_view.findViewById(R.id.btnLike);
+//            btnLike.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d(TAG,"onLike");
+//                    // Make an API call to Twitter to publish the tweet
+//                    client.likeTweet(, new JsonHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+//                            try {
+//                                Tweet tweet = Tweet.fromJson(json.jsonObject);
+//                                Log.i(TAG,"Published tweet says: " + tweet);
+//                                Intent intent = new Intent(ComposeActivity.this,TimelineActivity.class);
+//                                intent.putExtra("tweet", Parcels.wrap(tweet));
+//                                // set result and bundle code for response
+//                                setResult(RESULT_OK,intent);
+//                                finish();
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+//                            Log.e(TAG,"onFailure to publish tweet!", throwable);
+//                        }
+//                    });
+//                }
+//            });
+
+//            // Share tweet
+//            btnShare = item_view.findViewById(R.id.btnShare);
+//            btnShare.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d(TAG,"onShare");
+//                    return;
+//                }
+//            });
+
             itemView.setOnClickListener(this);
         }
 
@@ -108,6 +183,29 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         .load(tweet.mediaImageUrl)
                         .into(ivMedia);
             }
+
+
+            // Like Tweet
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG,"onLike " + tweet.id);
+                    // Make an API call to Twitter to publish the tweet
+                    client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG,"Favorited tweet: " + tweet);
+                                btnLike.setBackgroundColor(Color.parseColor("#ff0000"));
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e(TAG,"onFailure to favorite tweet!", throwable);
+                        }
+                    });
+                }
+            });
 
         }
 
