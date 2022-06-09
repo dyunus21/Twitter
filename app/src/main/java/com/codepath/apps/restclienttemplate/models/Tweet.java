@@ -27,6 +27,7 @@ public class Tweet {
     public String mediaImageUrl;
     public long id;
     public boolean favorited;
+    public boolean retweeted;
 
     // variables for relativeTime
     private static final int SECOND_MILLIS = 1000;
@@ -44,6 +45,7 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.id = jsonObject.getLong("id");
         tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
 
 
         // Set tweet body
@@ -104,6 +106,10 @@ public class Tweet {
 
     public boolean isFavorited() {
         return favorited;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
     }
 
     // Computes relative time since tweet was created

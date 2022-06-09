@@ -89,7 +89,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvTimestamp;
         TextView tvName;
         Button btnReply;
-//        Button btnRetweet;
+        Button btnRetweet;
         Button btnLike;
 //        Button btnShare;
         TwitterClient client;
@@ -106,6 +106,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMedia = item_view.findViewById(R.id.ivMedia);
 
             btnLike = (Button) item_view.findViewById(R.id.btnLike);
+            btnRetweet = (Button) item_view.findViewById(R.id.btnRetweet);
             btnReply = (Button) item_view.findViewById(R.id.btnReply);
 
 
@@ -159,6 +160,38 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         @Override
                         public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                             Log.e(TAG,"onFailure to favorite/unfavorite tweet!", throwable);
+                        }
+                    });
+                }
+            });
+
+            // Retweet
+            if(tweet.isRetweeted())
+                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+            else
+                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+
+            btnRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG,"onRetweet " + tweet.getId());
+
+                    String action = tweet.isRetweeted() ? "unretweet" : "retweet";
+                    Log.d(TAG,action + tweet.isRetweeted());
+
+                    client.reTweet(tweet.id,action, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.i(TAG,action + " tweet: " + tweet);
+                            if(tweet.isRetweeted())
+                                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+                            else
+                                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e(TAG,"onFailure to " + action + " tweet!", throwable);
                         }
                     });
                 }

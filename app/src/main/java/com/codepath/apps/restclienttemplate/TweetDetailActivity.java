@@ -50,7 +50,8 @@ public class TweetDetailActivity extends AppCompatActivity {
             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
         else
             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
-        //Like Tweet
+
+        // Like/Unlike Tweet
         binding.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +73,37 @@ public class TweetDetailActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                         Log.e(TAG, "onFailure to favorite/unfavorite tweet!", throwable);
+                    }
+                });
+            }
+        });
+
+        // Retweet
+        if(tweet.isRetweeted())
+            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+        else
+            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+        binding.btnRetweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG,"onRetweet " + tweet.getId());
+
+                String action = tweet.isRetweeted() ? "unretweet" : "retweet";
+                Log.d(TAG,action + tweet.isRetweeted());
+
+                client.reTweet(tweet.id,action, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        Log.i(TAG,action + " tweet: " + tweet);
+                        if(tweet.isRetweeted())
+                            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+                        else
+                            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                        Log.e(TAG,"onFailure to " + action + " tweet!", throwable);
                     }
                 });
             }
