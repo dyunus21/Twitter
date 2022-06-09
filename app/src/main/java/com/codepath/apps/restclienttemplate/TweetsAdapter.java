@@ -20,6 +20,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
+import com.codepath.apps.restclienttemplate.databinding.ActivityUserDetailsBinding;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetsBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
@@ -49,7 +51,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_tweets,parent, false);
+        binding = ItemTweetsBinding.inflate(LayoutInflater.from(context),parent, false);
+        View view = binding.getRoot();
         return new ViewHolder(view);
     }
 

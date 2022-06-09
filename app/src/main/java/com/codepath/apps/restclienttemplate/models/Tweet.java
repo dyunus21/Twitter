@@ -26,7 +26,7 @@ public class Tweet {
     public String timestamp;
     public String mediaImageUrl;
     public String embedUrl;
-    public long id;
+    public String id;
     public boolean favorited;
     public boolean retweeted;
 
@@ -46,7 +46,7 @@ public class Tweet {
 
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-        tweet.id = jsonObject.getLong("id");
+        tweet.id = jsonObject.getString("id_str");
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
 
@@ -116,7 +116,7 @@ public class Tweet {
         return mediaImageUrl;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

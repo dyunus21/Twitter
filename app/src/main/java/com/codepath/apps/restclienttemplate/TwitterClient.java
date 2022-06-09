@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;
@@ -47,13 +48,13 @@ public class TwitterClient extends OAuthBaseClient {
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
 
-	public void getHomeTimeline(Long maxId, JsonHttpResponseHandler handler) {
+	public void getHomeTimeline(String maxId, JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("since_id",1);
 		params.put("tweet_mode", "extended");
-		if(maxId > 1) {
+		if(maxId != null) {
 //			Log.d("hometimeline", "maxId" + maxId);
 			params.put("max_id", maxId);
 		}
@@ -70,7 +71,14 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler);
 	}
 
-	public void likeTweet(long tweetId, String action, JsonHttpResponseHandler handler) {
+	public void getFollowers(String userId, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("followers/list.json");
+		RequestParams params = new RequestParams();
+		params.put("user_id", userId);
+		client.post(apiUrl, params, "", handler);
+	}
+
+	public void likeTweet(String tweetId, String action, JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("favorites/" + action + ".json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
@@ -78,11 +86,11 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler);
 	}
 
-	public void reTweet(long tweetId, String action, JsonHttpResponseHandler handler) {
+	public void reTweet(String tweetId, String action, JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/" + action + "/" + tweetId + ".json");
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
-		client.post(apiUrl, params, "", handler);
+		client.get(apiUrl, params, handler);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

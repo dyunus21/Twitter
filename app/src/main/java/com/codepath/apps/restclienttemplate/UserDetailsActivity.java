@@ -1,21 +1,21 @@
 package com.codepath.apps.restclienttemplate;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTweetDetailsBinding;
 import com.codepath.apps.restclienttemplate.databinding.ActivityUserDetailsBinding;
-import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 
 import org.parceler.Parcels;
 
 public class UserDetailsActivity extends AppCompatActivity {
 
-    public static final String TAG = "TweetDetailActivity";
+    public static final String TAG = "UserDetailActivity";
     ActivityUserDetailsBinding binding;
 
     User user;
@@ -31,7 +31,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         user = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
 
         binding.tvName.setText(user.getName());
-        binding.tvScreenName.setText("@"+user.getScreenName());
+        binding.tvScreenName.setText("@" + user.getScreenName());
         binding.tvDescription.setText(user.getDescription());
         binding.tvFollowing.setText(user.getFollowing() + " Following");
         binding.tvFollowers.setText(user.getFollowers() + " Followers");
@@ -39,5 +39,17 @@ public class UserDetailsActivity extends AppCompatActivity {
 
         Glide.with(this).load(user.getPublicImageUrl()).into(binding.ivProfileImage);
         Glide.with(this).load(user.getProfileBannerUrl()).into(binding.ivBackgroundImage);
+
+        binding.tvFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "followers");
+                Intent intent = new Intent(UserDetailsActivity.this,FollowersActivity.class);
+                intent.putExtra(User.class.getSimpleName(),Parcels.wrap(user));
+                intent.putExtra("Type", "followers");
+                startActivity(intent);
+            }
+        });
+
     }
 }

@@ -38,6 +38,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
     private EndlessRecyclerViewScrollListener scrollListener;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +54,14 @@ public class TimelineActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.rvTweets.setLayoutManager(linearLayoutManager);
         binding.rvTweets.setAdapter(adapter);
-        populateHomeTimeline(0);
+        populateHomeTimeline(null);
 
         swipeContainer = findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 tweets.clear();
-                populateHomeTimeline(0);
+                populateHomeTimeline(null);
             }
         });
 
@@ -73,7 +74,7 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Tweet lastTweet = tweets.get(tweets.size()-1);
-                Long tweetId = lastTweet.getId();
+                String tweetId = lastTweet.getId();
                 populateHomeTimeline(tweetId);
             }
         };
@@ -100,6 +101,20 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        miActionProgressItem.setVisible(false);
+    }
+
 //    public void onReplySelected(Tweet tweet) {
 //        Intent intent = new Intent(this,ComposeActivity.class);
 //        intent.putExtra(Tweet.class.getSimpleName(),Parcels.wrap(tweet));
@@ -118,7 +133,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
 
-    private void populateHomeTimeline(long maxId) {
+    private void populateHomeTimeline(String maxId) {
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
