@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +32,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     List<Tweet> tweets;
 
     public static final String TAG = "TweetsAdapter";
+    public static final int REQUEST_CODE = 20;
 
 
     // Press in the contacts and list of tweets
@@ -82,11 +85,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivMedia;
         TextView tvTimestamp;
         TextView tvName;
-//        Button btnReply;
+        Button btnReply;
 //        Button btnRetweet;
         Button btnLike;
 //        Button btnShare;
         TwitterClient client;
+//        TwitterApp
 
         public ViewHolder(@NonNull View item_view) {
             super(item_view);
@@ -99,6 +103,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivMedia = item_view.findViewById(R.id.ivMedia);
 
             btnLike = (Button) item_view.findViewById(R.id.btnLike);
+            btnReply = (Button) item_view.findViewById(R.id.btnReply);
 
 
 //            // Reply to Tweet
@@ -191,21 +196,51 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     Log.d(TAG,"onLike " + tweet.id);
-                    // Make an API call to Twitter to publish the tweet
-                    client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+
+                    String action = tweet.favorited ? "destroy" : "create";
+                    Log.d(TAG,action + tweet.favorited);
+
+                    client.likeTweet(tweet.id,action, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG,"Favorited tweet: " + tweet);
+                            Log.i(TAG,"Favorited/Unfavorited tweet: " + tweet);
+                            if(tweet.favorited)
                                 btnLike.setBackgroundColor(Color.parseColor("#ff0000"));
+                            else
+                                btnLike.setBackgroundColor(R.drawable.ic_vector_heart_stroke);
                         }
 
                         @Override
                         public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                            Log.e(TAG,"onFailure to favorite tweet!", throwable);
+                            Log.e(TAG,"onFailure to favorite/unfavorite tweet!", throwable);
                         }
                     });
+
+//                    // Make an API call to Twitter to publish the tweet
+//                    client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+//                                Log.i(TAG,"Favorited tweet: " + tweet);
+//                                btnLike.setBackgroundColor(Color.parseColor("#ff0000"));
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+//                            Log.e(TAG,"onFailure to favorite tweet!", throwable);
+//                        }
+//                    });
                 }
             });
+
+//            btnReply.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d(TAG, "onReply ");
+//                    Intent intent = new Intent(context,ComposeActivity.class);
+//                    startActivityForResult(intent, REQUEST_CODE);
+//                    return true;
+//                }
+//            });
 
         }
 

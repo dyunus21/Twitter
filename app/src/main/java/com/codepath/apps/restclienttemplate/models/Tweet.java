@@ -25,7 +25,8 @@ public class Tweet {
     public User user;
     public String timestamp;
     public String mediaImageUrl;
-    public int id;
+    public long id;
+    public boolean favorited;
 
     // variables for relativeTime
     private static final int SECOND_MILLIS = 1000;
@@ -34,13 +35,16 @@ public class Tweet {
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public Tweet(){}
+
     // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
 
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-        tweet.id = jsonObject.getInt("id");
+        tweet.id = jsonObject.getLong("id");
+        tweet.favorited = jsonObject.getBoolean("favorited");
+
 
         // Set tweet body
         if(jsonObject.has("full_text")) {
@@ -94,6 +98,13 @@ public class Tweet {
         return mediaImageUrl;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public boolean isFavorited() {
+        return favorited;
+    }
 
     // Computes relative time since tweet was created
     // Reference: https://gist.github.com/nesquena/f786232f5ef72f6e10a7
