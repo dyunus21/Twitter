@@ -74,13 +74,6 @@ public class Tweet {
         else {
            tweet.embedUrl = "None";
        }
-//        if(jsonObject.getJSONObject("entities").getJSONArray("urls").length() != 0) {
-//            String web_url = jsonObject.getJSONObject("entities").getJSONArray("urls").getJSONObject(0).getString("expanded_url");
-//            String url = "https://publish.twitter.com/oembed?" + "url=" + web_url;
-//            Log.d(TAG, url);
-//            tweet.embedUrl = url;
-//        }
-//        Log.d(TAG, tweet.mediaImageUrl);
         tweet.timestamp = tweet.getRelativeTimeAgo(tweet.createdAt);
 
         return tweet;
