@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -131,28 +132,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         .load(tweet.mediaImageUrl)
                         .into(ivMedia);
             }
-//            else {
-//                client.getHomeTimeline(new JsonHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(int statusCode, Headers headers, JSON json) {
-//                        Log.i(TAG, "onSuccess! " + json.toString());
-//                        JSONArray jsonArray = json.jsonArray;
-//                        try {
-//                            adapter.clear();
-//                            tweets.addAll(Tweet.fromJsonArray(jsonArray));
-//                            adapter.notifyDataSetChanged();
-//                            swipeContainer.setRefreshing(false);
-//                        } catch (JSONException e) {
-//                            Log.e(TAG,"JSON Exception",e);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-//                        Log.e(TAG,"onFailure " + response, throwable);
-//                    }
-//                });
-//            }
+
+            ivProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG,"Directed to " + tweet.getUser().getName() + "'s profile");
+                    toUserProfile(tweet.getUser());
+                }
+            });
 
 
             // Like Tweet
@@ -225,15 +212,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 //                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
 //            else
 //                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
-
-            btnReply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d(TAG,"onReply " + tweet.getId());
-
-
-                }
-            });
+//
+//            btnReply.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d(TAG,"onReply " + tweet.getId());
+//
+//
+//                }
+//            });
 
 
         }
@@ -252,6 +239,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 // show the activity
                 context.startActivity(intent);
             }
+        }
+
+        public void toUserProfile(User user) {
+            Intent intent = new Intent(context, UserDetailsActivity.class);
+            intent.putExtra(User.class.getSimpleName(),Parcels.wrap(user));
+            context.startActivity(intent);
         }
 
 

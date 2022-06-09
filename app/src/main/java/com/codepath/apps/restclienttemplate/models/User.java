@@ -1,7 +1,5 @@
 package com.codepath.apps.restclienttemplate.models;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -13,15 +11,29 @@ public class User {
     public String name;
     public String screenName;
     public String publicImageUrl;
+    public String profileBannerUrl;
+    public String description;
+    public String location;
+    public int following;
+    public int followers;
+    public boolean follows;
 
 
-    public User(){}
+    public User() {
+    }
+
     // Unpack user data from Json Object
     public static User fromJson(JSONObject jsonObject) throws JSONException {
         User user = new User();
         user.name = jsonObject.getString("name");
         user.screenName = jsonObject.getString("screen_name");
         user.publicImageUrl = jsonObject.getString("profile_image_url_https");
+        user.profileBannerUrl = jsonObject.getString("profile_banner_url");
+        user.description = jsonObject.getString("description");
+        user.location = jsonObject.getString("location");
+        user.followers = jsonObject.getInt("followers_count");
+        user.following = jsonObject.getInt("friends_count");
+//        user.follows = jsonObject.getBoolean()
 
         return user;
     }
@@ -37,5 +49,29 @@ public class User {
 
     public String getPublicImageUrl() {
         return publicImageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getProfileBannerUrl() {
+        return profileBannerUrl;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getFollowing() {
+        return following;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public boolean isFollows() {
+        return follows;
     }
 }

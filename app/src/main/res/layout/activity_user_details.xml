@@ -7,10 +7,21 @@
     tools:context=".UserDetailsActivity">
 
 
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:text="Location" />
+
     <ImageView
         android:id="@+id/ivBackgroundImage"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,6 +32,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivBackgroundImage"
         tools:srcCompat="@tools:sample/avatars" />
@@ -46,7 +58,6 @@
         android:layout_toEndOf="@+id/tvName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:layout_marginStart="5dp"
         tools:text="ScreenName" />
 
     <TextView
@@ -84,7 +95,7 @@
         android:clickable="true"
         android:text="Following"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
     <TextView
         android:id="@+id/tvFollowers"
@@ -95,5 +106,5 @@
         android:clickable="true"
         android:text="Followers"
         app:layout_constraintStart_toEndOf="@+id/tvFollowing"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
