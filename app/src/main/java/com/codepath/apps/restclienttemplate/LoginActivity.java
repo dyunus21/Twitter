@@ -13,46 +13,46 @@ import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
-	SampleModelDao sampleModelDao;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+    SampleModelDao sampleModelDao;
 
-		final SampleModel sampleModel = new SampleModel();
-		sampleModel.setName("CodePath");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-		sampleModelDao = ((TwitterApp) getApplicationContext()).getMyDatabase().sampleModelDao();
+        final SampleModel sampleModel = new SampleModel();
+        sampleModel.setName("CodePath");
 
-		AsyncTask.execute(new Runnable() {
-			@Override
-			public void run() {
-				sampleModelDao.insertModel(sampleModel);
-			}
-		});
-	}
+        sampleModelDao = ((TwitterApp) getApplicationContext()).getMyDatabase().sampleModelDao();
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                sampleModelDao.insertModel(sampleModel);
+            }
+        });
+    }
 
-	@Override
-	public void onLoginSuccess() {
-		Log.i("LoginActivity", "onLoginSuccess");
-		 Intent i = new Intent(this, TimelineActivity.class);
-		 startActivity(i);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.login, menu);
+        return true;
+    }
 
-	@Override
-	public void onLoginFailure(Exception e) {
-		e.printStackTrace();
-	}
+    @Override
+    public void onLoginSuccess() {
+        Log.i("LoginActivity", "onLoginSuccess");
+        Intent i = new Intent(this, TimelineActivity.class);
+        startActivity(i);
+    }
 
-	public void loginToRest(View view) {
-		getClient().connect();
-	}
+    @Override
+    public void onLoginFailure(Exception e) {
+        e.printStackTrace();
+    }
+
+    public void loginToRest(View view) {
+        getClient().connect();
+    }
 
 }

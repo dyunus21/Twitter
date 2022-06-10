@@ -1,8 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.databinding.ActivityUserDetailsBinding;
 import com.codepath.apps.restclienttemplate.models.User;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.parceler.Parcels;
-
-import okhttp3.Headers;
 
 public class UserDetailsActivity extends AppCompatActivity {
 

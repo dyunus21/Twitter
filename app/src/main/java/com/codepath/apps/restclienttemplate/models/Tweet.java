@@ -82,7 +82,7 @@ public class Tweet {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             Tweet new_tweet = fromJson(jsonArray.getJSONObject(i));
-            if(new_tweet != null)
+            if (new_tweet != null)
                 tweets.add(new_tweet);
         }
         return tweets;

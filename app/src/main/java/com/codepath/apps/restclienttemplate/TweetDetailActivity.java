@@ -1,6 +1,5 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,13 +101,12 @@ public class TweetDetailActivity extends AppCompatActivity {
                 if (tweet.favorited) {
                     tweet.favorited = false;
                     binding.ibLike.setBackgroundResource(R.drawable.ic_vector_heart);
-                    tweet.favoriteCount -=1;
+                    tweet.favoriteCount -= 1;
                     binding.tvLikeCount.setText(String.valueOf(tweet.favoriteCount));
-                }
-                else {
+                } else {
                     tweet.favorited = true;
                     binding.ibLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
-                    tweet.favoriteCount +=1;
+                    tweet.favoriteCount += 1;
                     binding.tvLikeCount.setText(String.valueOf(tweet.favoriteCount));
                 }
             }
@@ -133,13 +131,12 @@ public class TweetDetailActivity extends AppCompatActivity {
                 if (tweet.isRetweeted()) {
                     tweet.retweeted = false;
                     binding.ibRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
-                    tweet.retweetCount -=1;
+                    tweet.retweetCount -= 1;
                     binding.tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
-                }
-                else {
+                } else {
                     tweet.retweeted = true;
                     binding.ibRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
-                    tweet.retweetCount +=1;
+                    tweet.retweetCount += 1;
                     binding.tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
                 }
             }

@@ -132,7 +132,7 @@ public class TimelineActivity extends AppCompatActivity {
 
 
     private void populateHomeTimeline(String maxId) {
-        if(miActionProgressItem != null)
+        if (miActionProgressItem != null)
             showProgressBar();
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override

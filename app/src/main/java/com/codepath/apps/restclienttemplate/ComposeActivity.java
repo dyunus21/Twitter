@@ -49,13 +49,12 @@ public class ComposeActivity extends AppCompatActivity {
                 }
                 Toast.makeText(ComposeActivity.this, tweetContent, Toast.LENGTH_LONG).show();
 
-                if(getIntent().hasExtra("reply_to")) {
+                if (getIntent().hasExtra("reply_to")) {
                     Tweet tweet = Parcels.unwrap(getIntent().getParcelableExtra("reply_to"));
                     tweetContent = tweet.getUser().getScreenName() + " " + tweetContent;
-                    publishTweet(tweetContent,tweet.getId());
-                }
-                else {
-                    publishTweet(tweetContent,null);
+                    publishTweet(tweetContent, tweet.getId());
+                } else {
+                    publishTweet(tweetContent, null);
                 }
             }
         });
