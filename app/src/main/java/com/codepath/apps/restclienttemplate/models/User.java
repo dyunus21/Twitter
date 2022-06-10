@@ -12,6 +12,7 @@ import java.util.List;
 public class User {
 
     // Define User variables
+    public String id;
     public String name;
     public String screenName;
     public String publicImageUrl;
@@ -29,6 +30,7 @@ public class User {
     // Unpack user data from Json Object
     public static User fromJson(JSONObject jsonObject) throws JSONException {
         User user = new User();
+        user.id = jsonObject.getString("id_str");
         user.name = jsonObject.getString("name");
         user.screenName = jsonObject.getString("screen_name");
         user.publicImageUrl = jsonObject.getString("profile_image_url_https");
@@ -48,6 +50,10 @@ public class User {
             users.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return users;
+    }
+
+    public String getId() {
+        return id;
     }
 
     // Getters
