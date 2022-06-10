@@ -137,6 +137,8 @@ public class TimelineActivity extends AppCompatActivity {
 
 
     private void populateHomeTimeline(String maxId) {
+        if(miActionProgressItem != null)
+            showProgressBar();
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -149,6 +151,7 @@ public class TimelineActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception", e);
                 }
+                hideProgressBar();
             }
 
             @Override
@@ -156,6 +159,7 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure " + response, throwable);
             }
         });
+
     }
 
     public void onLogoutButton(View view) {

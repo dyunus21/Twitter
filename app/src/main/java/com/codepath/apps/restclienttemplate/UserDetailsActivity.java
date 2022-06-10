@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +34,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         user = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
 
         binding.tvName.setText(user.getName());
-        binding.tvScreenName.setText("@" + user.getScreenName());
+        binding.tvScreenName.setText(R.string.at + user.getScreenName());
         binding.tvDescription.setText(user.getDescription());
         binding.tvFollowing.setText(user.getFollowing() + " Following");
         binding.tvFollowers.setText(user.getFollowers() + " Followers");
@@ -48,8 +47,8 @@ public class UserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "followers");
-                Intent intent = new Intent(UserDetailsActivity.this,FollowersActivity.class);
-                intent.putExtra(User.class.getSimpleName(),Parcels.wrap(user));
+                Intent intent = new Intent(UserDetailsActivity.this, FollowersActivity.class);
+                intent.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
                 intent.putExtra("Type", "followers");
                 startActivity(intent);
             }
@@ -58,7 +57,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         binding.btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"follow " + user.id);
+                Log.d(TAG, "follow " + user.id);
 
 //                String action = tweet.favorited ? "destroy" : "create";
 //                Log.d(TAG,action + tweet.favorited);
@@ -66,12 +65,12 @@ public class UserDetailsActivity extends AppCompatActivity {
                 client.follow(user.getId(), "destroy", new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
-                        binding.btnFollow.setText("Follow");
+                        binding.btnFollow.setText(R.string.follow);
                     }
 
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                        Log.e(TAG,"onFailure to follow user!", throwable);
+                        Log.e(TAG, "onFailure to follow user!", throwable);
                     }
                 });
             }

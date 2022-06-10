@@ -71,24 +71,29 @@
         android:layout_height="200dp"
         android:layout_below="@+id/tvBody"
         android:layout_alignStart="@+id/tvBody"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:foregroundGravity="center"
         android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnReply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnReply"
+        app:layout_constraintTop_toBottomOf="@+id/tvBody"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnReply"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/ic_reply"
         android:backgroundTint="@android:color/black"
         android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBody"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <Button

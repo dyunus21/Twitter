@@ -50,8 +50,6 @@ public class TweetDetailActivity extends AppCompatActivity {
             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
         else
             binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
-
-        // Like/Unlike Tweet
         binding.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +57,6 @@ public class TweetDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Retweet
         if (tweet.isRetweeted())
             binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
         else

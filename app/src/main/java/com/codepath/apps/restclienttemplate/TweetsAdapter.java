@@ -2,46 +2,31 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
-import com.codepath.apps.restclienttemplate.databinding.ActivityUserDetailsBinding;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetsBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.parceler.Parcels;
 
 import java.util.List;
 
 import okhttp3.Headers;
 
-public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
-    Context context;
-    List<Tweet> tweets;
-
+public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
     public static final String TAG = "TweetsAdapter";
     public static final int REQUEST_CODE = 20;
+    Context context;
+    List<Tweet> tweets;
     ItemTweetsBinding binding;
 
     public TweetsAdapter(Context context, List<Tweet> tweets) {
@@ -52,12 +37,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemTweetsBinding.inflate(LayoutInflater.from(context),parent, false);
+        binding = ItemTweetsBinding.inflate(LayoutInflater.from(context), parent, false);
         View view = binding.getRoot();
         return new ViewHolder(view);
     }
 
-    // bind value based on position of element
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);
@@ -79,8 +63,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TwitterClient client;
 
         public ViewHolder(@NonNull View item_view) {
@@ -91,7 +74,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public void bind(Tweet tweet) {
             binding.tvBody.setText(tweet.body);
-            binding.tvScreenName.setText("@" + tweet.user.screenName);
+            binding.tvScreenName.setText(String.format("%s%s", context.getString(R.string.at), tweet.getUser().getScreenName()));
             binding.tvName.setText(tweet.user.name);
             Glide.with(context)
                     .load(tweet.user.publicImageUrl)
@@ -99,17 +82,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.tvTimestamp.setText(tweet.timestamp);
 
             // If media exists in tweet, set media to be visible
-            if(tweet.mediaImageUrl != "None") {
+            if (tweet.mediaImageUrl != "None") {
                 binding.ivMedia.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(tweet.mediaImageUrl)
                         .into(binding.ivMedia);
             }
+            else
+                binding.ivMedia.setVisibility(View.GONE);
 
             binding.ivProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d(TAG,"Directed to " + tweet.getUser().getName() + "'s profile");
+                    Log.d(TAG, "Directed to " + tweet.getUser().getName() + "'s profile");
                     toUserProfile(tweet.getUser());
                 }
             });
@@ -117,12 +102,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             // Like Tweet
 
-            if(tweet.favorited)
+            if (tweet.favorited)
                 binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
             else
                 binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
 
-            // Like/Unlike Tweet
             binding.btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -130,7 +114,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
             });
 
-            // Retweet
             if (tweet.isRetweeted())
                 binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
             else
@@ -171,7 +154,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public void toUserProfile(User user) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
-            intent.putExtra(User.class.getSimpleName(),Parcels.wrap(user));
+            intent.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
             context.startActivity(intent);
         }
 
