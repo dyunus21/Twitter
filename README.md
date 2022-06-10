@@ -41,7 +41,12 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [x] List anything else that you can get done to improve the app functionality!
+  * [x] Used string resources instead of hardcoding string 
+  * [x] Updated EditText to show hint even after user starts typing,
+  * [x] Users can follow/unfollow other users
+  * [x] Implemented User profile details page 
+  * [x] Icons change color when selected
 
 ## Video Walkthrough
 
