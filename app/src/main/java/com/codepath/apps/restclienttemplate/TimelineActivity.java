@@ -127,7 +127,7 @@ public class TimelineActivity extends AppCompatActivity {
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
             tweets.add(0, tweet);
             adapter.notifyItemInserted(0);
-            binding.rvTweets.smoothScrollToPosition(0);
+            binding.rvTweets.scrollToPosition(0);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
