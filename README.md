@@ -1,8 +1,8 @@
-# Project 2 - *Name of App Here*
+# Project 2 - *Twitter*
 
-**Name of your app** is an android app that allows a user to view their Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
+**Twitter** is an android app that allows a user to view their Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **X** hours spent in total
+Time spent: **20** hours spent in total
 
 ## User Stories
 
@@ -47,6 +47,7 @@ The following **additional** features are implemented:
   * [x] Users can follow/unfollow other users
   * [x] Implemented User profile details page 
   * [x] Icons change color when selected
+  * [x] Added logout button to menu
 
 ## Video Walkthrough
 
@@ -59,6 +60,8 @@ GIF created with [Kap](https://getkap.co/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+* Initially I had some trouble understanding API calls, but by consulting the documentation, I was able to better understand how to call the API.
+* The rate limit instilled by the Twitter API made it difficult to consistently test the application
 
 ## Open-source libraries used
 
