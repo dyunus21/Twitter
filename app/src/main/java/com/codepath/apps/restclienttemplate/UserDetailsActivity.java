@@ -62,8 +62,8 @@ public class UserDetailsActivity extends AppCompatActivity {
 
 //                String action = tweet.favorited ? "destroy" : "create";
 //                Log.d(TAG,action + tweet.favorited);
-
-                client.follow(user.getId(), new JsonHttpResponseHandler() {
+                // CHANGE LATER
+                client.follow(user.getId(), "destroy", new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         binding.btnFollow.setText("Follow");

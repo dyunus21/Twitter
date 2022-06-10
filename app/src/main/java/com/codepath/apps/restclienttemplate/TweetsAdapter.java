@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -179,23 +180,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
             });
 
-//            // Reply
-//            if(tweet.isRetweeted())
-//                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
-//            else
-//                btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
-//
-//            btnReply.setOnClickListener(new View.OnClickListener() {
+
+//            binding.btnReply.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
 //                    Log.d(TAG,"onReply " + tweet.getId());
 //
+//                    Intent intent = new Intent(context, ComposeActivity.class);
 //
 //                }
 //            });
 
 
         }
+
 
         @Override
         public void onClick(View v) {

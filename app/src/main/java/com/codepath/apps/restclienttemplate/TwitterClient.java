@@ -55,11 +55,11 @@ public class TwitterClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
 
-    public void publishTweet(String tweetContent, long replyTo, JsonHttpResponseHandler handler) {
+    public void publishTweet(String tweetContent, String replyTo, JsonHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/update.json");
         RequestParams params = new RequestParams();
         params.put("status", tweetContent);
-        if (replyTo > -1) {
+        if (replyTo != null) {
             params.put("in_reply_to_status_id", replyTo);
         }
         client.post(apiUrl, params, "", handler);
@@ -86,8 +86,8 @@ public class TwitterClient extends OAuthBaseClient {
         client.post(apiUrl, params,"", handler);
     }
 
-	public void follow(String userId, JsonHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("friendships/destroy.json");
+	public void follow(String userId, String action, JsonHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friendships/" + action + ".json");
         RequestParams params = new RequestParams();
         params.put("user_id", userId);
         client.post(apiUrl, params, "",handler);
