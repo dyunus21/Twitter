@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.codepath.apps.restclienttemplate.databinding.ActivityComposeBinding;
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -36,9 +35,9 @@ public class TimelineActivity extends AppCompatActivity {
     TwitterClient client;
     List<Tweet> tweets;
     TweetsAdapter adapter;
+    MenuItem miActionProgressItem;
     private SwipeRefreshLayout swipeContainer;
     private EndlessRecyclerViewScrollListener scrollListener;
-    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +55,20 @@ public class TimelineActivity extends AppCompatActivity {
         binding.rvTweets.setAdapter(adapter);
         populateHomeTimeline(null);
 
+        refreshContainer();
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Tweet lastTweet = tweets.get(tweets.size() - 1);
+                String tweetId = lastTweet.getId();
+                populateHomeTimeline(tweetId);
+            }
+        };
+        binding.rvTweets.addOnScrollListener(scrollListener);
+    }
+
+    public void refreshContainer() {
         swipeContainer = findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -69,16 +82,6 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Tweet lastTweet = tweets.get(tweets.size()-1);
-                String tweetId = lastTweet.getId();
-                populateHomeTimeline(tweetId);
-            }
-        };
-        binding.rvTweets.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -100,6 +103,7 @@ public class TimelineActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         miActionProgressItem = menu.findItem(R.id.miActionProgress);

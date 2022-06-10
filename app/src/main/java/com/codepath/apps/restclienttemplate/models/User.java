@@ -11,7 +11,6 @@ import java.util.List;
 @Parcel
 public class User {
 
-    // Define User variables
     public String id;
     public String name;
     public String screenName;
@@ -21,8 +20,6 @@ public class User {
     public String location;
     public int following;
     public int followers;
-    public boolean follows;
-
 
     public User() {
     }
@@ -39,14 +36,13 @@ public class User {
         user.location = jsonObject.getString("location");
         user.followers = jsonObject.getInt("followers_count");
         user.following = jsonObject.getInt("friends_count");
-//        user.follows = jsonObject.getBoolean()
 
         return user;
     }
 
-    public static List<User> fromJsonArray(JSONArray jsonArray) throws JSONException{
+    public static List<User> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<User> users = new ArrayList<>();
-        for(int i = 0; i<jsonArray.length();i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             users.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return users;
@@ -56,7 +52,6 @@ public class User {
         return id;
     }
 
-    // Getters
     public String getName() {
         return name;
     }
@@ -87,9 +82,5 @@ public class User {
 
     public int getFollowers() {
         return followers;
-    }
-
-    public boolean isFollows() {
-        return follows;
     }
 }

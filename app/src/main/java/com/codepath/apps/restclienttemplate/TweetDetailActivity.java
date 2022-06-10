@@ -55,26 +55,7 @@ public class TweetDetailActivity extends AppCompatActivity {
         binding.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onLike " + tweet.id);
-
-                String action = tweet.favorited ? "destroy" : "create";
-                Log.d(TAG, action + tweet.favorited);
-
-                client.likeTweet(tweet.id, action, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Headers headers, JSON json) {
-                        Log.i(TAG, "Favorited/Unfavorited tweet: " + tweet);
-                        if (tweet.favorited)
-                            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
-                        else
-                            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                        Log.e(TAG, "onFailure to favorite/unfavorite tweet!", throwable);
-                    }
-                });
+                likeTweet();
             }
         });
 
@@ -86,26 +67,7 @@ public class TweetDetailActivity extends AppCompatActivity {
         binding.btnRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onRetweet " + tweet.getId());
-
-                String action = tweet.isRetweeted() ? "unretweet" : "retweet";
-                Log.d(TAG, action + tweet.isRetweeted());
-
-                client.reTweet(tweet.id, action, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Headers headers, JSON json) {
-                        Log.i(TAG, action + " tweet: " + tweet);
-                        if (tweet.isRetweeted())
-                            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
-                        else
-                            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                        Log.e(TAG, "onFailure to " + action + " tweet!", throwable);
-                    }
-                });
+                retweet();
             }
         });
 
@@ -113,7 +75,53 @@ public class TweetDetailActivity extends AppCompatActivity {
 
     public void toUserProfile(View view) {
         Intent intent = new Intent(this, UserDetailsActivity.class);
-        intent.putExtra(User.class.getSimpleName(),Parcels.wrap(tweet.getUser()));
+        intent.putExtra(User.class.getSimpleName(), Parcels.wrap(tweet.getUser()));
         startActivity(intent);
+    }
+
+    public void likeTweet() {
+        Log.d(TAG, "onLike " + tweet.id);
+
+        String action = tweet.favorited ? "destroy" : "create";
+        Log.d(TAG, action + tweet.favorited);
+
+        client.likeTweet(tweet.id, action, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "Favorited/Unfavorited tweet: " + tweet);
+                if (tweet.favorited)
+                    binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
+                else
+                    binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to favorite/unfavorite tweet!", throwable);
+            }
+        });
+    }
+
+    public void retweet() {
+        Log.d(TAG, "onRetweet " + tweet.getId());
+
+        String action = tweet.isRetweeted() ? "unretweet" : "retweet";
+        Log.d(TAG, action + tweet.isRetweeted());
+
+        client.reTweet(tweet.id, action, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, action + " tweet: " + tweet);
+                if (tweet.isRetweeted())
+                    binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+                else
+                    binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to " + action + " tweet!", throwable);
+            }
+        });
     }
 }

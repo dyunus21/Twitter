@@ -1,6 +1,5 @@
 package com.codepath.apps.restclienttemplate.models;
 
-import android.text.format.DateUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -18,8 +17,12 @@ import java.util.Locale;
 public class Tweet {
 
     public static final String TAG = "Tweet";
+    // variables for relativeTime
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
-    // Define Tweet variables
     public String body;
     public String createdAt;
     public User user;
@@ -30,19 +33,14 @@ public class Tweet {
     public boolean favorited;
     public boolean retweeted;
 
-    // variables for relativeTime
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-
-    public Tweet(){}
+    public Tweet() {
+    }
 
     // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
 
-        Log.d(TAG,"Tweet: " + jsonObject);
+        Log.d(TAG, "Tweet: " + jsonObject);
 
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
@@ -50,45 +48,39 @@ public class Tweet {
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
 
-
-        // Set tweet body
-        if(jsonObject.has("full_text")) {
+        if (jsonObject.has("full_text")) {
             tweet.body = jsonObject.getString("full_text");
         } else {
             tweet.body = jsonObject.getString("text");
         }
 
-        // Set tweet media if exists
-        if(jsonObject.getJSONObject("entities").has("media")) {
+        if (jsonObject.getJSONObject("entities").has("media")) {
             tweet.mediaImageUrl = jsonObject.getJSONObject("entities").getJSONArray("media")
                     .getJSONObject(0).getString("media_url_https");
-        }
-        else {
+        } else {
             tweet.mediaImageUrl = "None";
 
         }
-       if(jsonObject.getJSONObject("entities").getJSONArray("urls").length() != 0) {
+
+        if (jsonObject.getJSONObject("entities").getJSONArray("urls").length() != 0) {
             tweet.embedUrl = jsonObject.getJSONObject("entities").getJSONArray("urls")
                     .getJSONObject(0).getString("expanded_url");
+        } else {
+            tweet.embedUrl = "None";
         }
-        else {
-           tweet.embedUrl = "None";
-       }
         tweet.timestamp = tweet.getRelativeTimeAgo(tweet.createdAt);
 
         return tweet;
     }
 
-    // Gets list of tweets
-    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException{
+    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
-        for(int i = 0; i<jsonArray.length();i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
     }
 
-    // Getters
     public String getBody() {
         return body;
     }
