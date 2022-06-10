@@ -69,7 +69,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void refreshContainer() {
-        swipeContainer = findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -119,12 +119,6 @@ public class TimelineActivity extends AppCompatActivity {
         miActionProgressItem.setVisible(false);
     }
 
-//    public void onReplySelected(Tweet tweet) {
-//        Intent intent = new Intent(this,ComposeActivity.class);
-//        intent.putExtra(Tweet.class.getSimpleName(),Parcels.wrap(tweet));
-//        startActivityForResult(intent,REQUEST_CODE);
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
@@ -132,7 +126,6 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             adapter.notifyItemInserted(0);
             binding.rvTweets.scrollToPosition(0);
-//            swipeContainer.setRefreshing(true);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

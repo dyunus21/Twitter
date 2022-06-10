@@ -49,7 +49,6 @@ public class TwitterClient extends OAuthBaseClient {
         params.put("since_id", 1);
         params.put("tweet_mode", "extended");
         if (maxId != null) {
-//			Log.d("hometimeline", "maxId" + maxId);
             params.put("max_id", maxId);
         }
         client.get(apiUrl, params, handler);

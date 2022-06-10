@@ -38,7 +38,6 @@ public class Tweet {
     public Tweet() {
     }
 
-    // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         if (jsonObject.has("retweeted_status"))
             return null;

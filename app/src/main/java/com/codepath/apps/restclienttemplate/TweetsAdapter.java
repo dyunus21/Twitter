@@ -126,6 +126,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     ((Activity) context).startActivityForResult(intent,TimelineActivity.REQUEST_CODE);
                 }
             });
+
         }
 
         @Override

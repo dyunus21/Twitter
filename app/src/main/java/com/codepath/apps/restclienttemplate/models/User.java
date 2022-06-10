@@ -24,7 +24,6 @@ public class User {
     public User() {
     }
 
-    // Unpack user data from Json Object
     public static User fromJson(JSONObject jsonObject) throws JSONException {
         User user = new User();
         user.id = jsonObject.getString("id_str");

@@ -69,7 +69,6 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     public void publishTweet(String tweetContent, String replyTo) {
-        // Make an API call to Twitter to publish the tweet
         client.publishTweet(tweetContent, replyTo, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
