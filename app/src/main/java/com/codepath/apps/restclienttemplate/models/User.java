@@ -29,7 +29,7 @@ public class User {
         User user = new User();
         user.id = jsonObject.getString("id_str");
         user.name = jsonObject.getString("name");
-        user.screenName = jsonObject.getString("screen_name");
+        user.screenName = "@" + jsonObject.getString("screen_name");
         user.publicImageUrl = jsonObject.getString("profile_image_url_https");
         user.profileBannerUrl = jsonObject.getString("profile_banner_url");
         user.description = jsonObject.getString("description");

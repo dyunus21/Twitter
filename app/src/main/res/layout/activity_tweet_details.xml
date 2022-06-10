@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".TweetDetailActivity">
 
+    <TextView
+        android:id="@+id/tvReplyCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/ibRetweet"
+        app:layout_constraintStart_toEndOf="@+id/ibReply"
+        app:layout_constraintTop_toTopOf="@+id/ibRetweet" />
+
+    <TextView
+        android:id="@+id/tvRetweetCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/ibRetweet"
+        app:layout_constraintTop_toTopOf="@+id/ibRetweet" />
+
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="50dp"
@@ -74,8 +91,8 @@
         app:layout_constraintTop_toBottomOf="@+id/tvBody"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <Button
-        android:id="@+id/btnReply"
+    <ImageButton
+        android:id="@+id/ibReply"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="50dp"
@@ -87,40 +104,49 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <Button
-        android:id="@+id/btnRetweet"
+    <ImageButton
+        android:id="@+id/ibRetweet"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="60dp"
         android:background="@drawable/ic_vector_retweet_stroke"
         android:clickable="true"
-        app:layout_constraintStart_toEndOf="@+id/btnReply"
-        app:layout_constraintTop_toTopOf="@+id/btnReply"
+        app:layout_constraintStart_toEndOf="@+id/ibReply"
+        app:layout_constraintTop_toTopOf="@+id/ibReply"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-    <Button
-        android:id="@+id/btnLike"
+    <ImageButton
+        android:id="@+id/ibLike"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/ic_vector_heart_stroke"
         android:clickable="true"
-        app:layout_constraintEnd_toStartOf="@+id/btnShare"
-        app:layout_constraintStart_toEndOf="@+id/btnRetweet"
-        app:layout_constraintTop_toTopOf="@+id/btnRetweet"
+        app:layout_constraintEnd_toStartOf="@+id/ibShare"
+        app:layout_constraintStart_toEndOf="@+id/ibRetweet"
+        app:layout_constraintTop_toTopOf="@+id/ibRetweet"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <Button
-        android:id="@+id/btnShare"
+    <ImageButton
+        android:id="@+id/ibShare"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="60dp"
         android:background="@android:drawable/ic_menu_share"
         android:backgroundTint="@android:color/black"
         android:clickable="true"
-        app:layout_constraintStart_toEndOf="@+id/btnLike"
-        app:layout_constraintTop_toTopOf="@+id/btnLike"
+        app:layout_constraintStart_toEndOf="@+id/ibLike"
+        app:layout_constraintTop_toTopOf="@+id/ibLike"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tvLikeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/ibLike"
+        app:layout_constraintStart_toEndOf="@+id/ibLike"
+        app:layout_constraintTop_toTopOf="@+id/ibLike" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

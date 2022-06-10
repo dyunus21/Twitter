@@ -31,6 +31,8 @@ public class Tweet {
     public String embedUrl;
     public String id;
     public boolean favorited;
+    public int favoriteCount;
+    public int retweetCount;
     public boolean retweeted;
 
     public Tweet() {
@@ -38,6 +40,8 @@ public class Tweet {
 
     // Unpack Tweet data from JsonObject
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
+        if (jsonObject.has("retweeted_status"))
+            return null;
         Tweet tweet = new Tweet();
 
         Log.d(TAG, "Tweet: " + jsonObject);
@@ -69,6 +73,8 @@ public class Tweet {
             tweet.embedUrl = "None";
         }
         tweet.timestamp = tweet.getRelativeTimeAgo(tweet.createdAt);
+        tweet.favoriteCount = jsonObject.getInt("favorite_count");
+        tweet.retweetCount = jsonObject.getInt("retweet_count");
 
         return tweet;
     }
@@ -76,7 +82,9 @@ public class Tweet {
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            tweets.add(fromJson(jsonArray.getJSONObject(i)));
+            Tweet new_tweet = fromJson(jsonArray.getJSONObject(i));
+            if(new_tweet != null)
+                tweets.add(new_tweet);
         }
         return tweets;
     }
@@ -111,6 +119,18 @@ public class Tweet {
 
     public boolean isRetweeted() {
         return retweeted;
+    }
+
+    public String getEmbedUrl() {
+        return embedUrl;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public int getRetweetCount() {
+        return retweetCount;
     }
 
     // Computes relative time since tweet was created

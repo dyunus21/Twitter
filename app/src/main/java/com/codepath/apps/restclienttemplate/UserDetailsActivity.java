@@ -34,7 +34,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         user = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
 
         binding.tvName.setText(user.getName());
-        binding.tvScreenName.setText(R.string.at + user.getScreenName());
+        binding.tvScreenName.setText(user.getScreenName());
         binding.tvDescription.setText(user.getDescription());
         binding.tvFollowing.setText(user.getFollowing() + " Following");
         binding.tvFollowers.setText(user.getFollowers() + " Followers");

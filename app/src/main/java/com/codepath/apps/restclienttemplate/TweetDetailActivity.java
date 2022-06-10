@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class TweetDetailActivity extends AppCompatActivity {
         Log.d(TAG, "tweet " + tweet);
 
         binding.tvName.setText(tweet.getUser().getName());
-        binding.tvScreenName.setText("@" + tweet.getUser().getScreenName());
+        binding.tvScreenName.setText(tweet.getUser().getScreenName());
         binding.tvBody.setText(tweet.getBody());
         Glide.with(this).load(tweet.getUser().getPublicImageUrl()).into(binding.ivProfileImage);
         if (tweet.mediaImageUrl != "None") {
@@ -46,11 +47,20 @@ public class TweetDetailActivity extends AppCompatActivity {
                     .into(binding.ivMedia);
         }
 
+        binding.ibReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TweetDetailActivity.this, ComposeActivity.class);
+                intent.putExtra("reply_to", Parcels.wrap(tweet));
+                startActivity(intent);
+            }
+        });
+
         if (tweet.favorited)
-            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
+            binding.ibLike.setBackgroundResource(R.drawable.ic_vector_heart);
         else
-            binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
-        binding.btnLike.setOnClickListener(new View.OnClickListener() {
+            binding.ibLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+        binding.ibLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 likeTweet();
@@ -58,15 +68,18 @@ public class TweetDetailActivity extends AppCompatActivity {
         });
 
         if (tweet.isRetweeted())
-            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+            binding.ibRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
         else
-            binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
-        binding.btnRetweet.setOnClickListener(new View.OnClickListener() {
+            binding.ibRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+        binding.ibRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 retweet();
             }
         });
+
+        binding.tvLikeCount.setText(String.valueOf(tweet.favoriteCount));
+        binding.tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
 
     }
 
@@ -86,10 +99,18 @@ public class TweetDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "Favorited/Unfavorited tweet: " + tweet);
-                if (tweet.favorited)
-                    binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart);
-                else
-                    binding.btnLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                if (tweet.favorited) {
+                    tweet.favorited = false;
+                    binding.ibLike.setBackgroundResource(R.drawable.ic_vector_heart);
+                    tweet.favoriteCount -=1;
+                    binding.tvLikeCount.setText(String.valueOf(tweet.favoriteCount));
+                }
+                else {
+                    tweet.favorited = true;
+                    binding.ibLike.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                    tweet.favoriteCount +=1;
+                    binding.tvLikeCount.setText(String.valueOf(tweet.favoriteCount));
+                }
             }
 
             @Override
@@ -109,10 +130,18 @@ public class TweetDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, action + " tweet: " + tweet);
-                if (tweet.isRetweeted())
-                    binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
-                else
-                    binding.btnRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                if (tweet.isRetweeted()) {
+                    tweet.retweeted = false;
+                    binding.ibRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+                    tweet.retweetCount -=1;
+                    binding.tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
+                }
+                else {
+                    tweet.retweeted = true;
+                    binding.ibRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                    tweet.retweetCount +=1;
+                    binding.tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
+                }
             }
 
             @Override

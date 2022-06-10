@@ -27,7 +27,7 @@ public class ComposeActivity extends AppCompatActivity {
     ActivityComposeBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityComposeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -49,7 +49,14 @@ public class ComposeActivity extends AppCompatActivity {
                 }
                 Toast.makeText(ComposeActivity.this, tweetContent, Toast.LENGTH_LONG).show();
 
-                publishTweet(tweetContent);
+                if(getIntent().hasExtra("reply_to")) {
+                    Tweet tweet = Parcels.unwrap(getIntent().getParcelableExtra("reply_to"));
+                    tweetContent = tweet.getUser().getScreenName() + " " + tweetContent;
+                    publishTweet(tweetContent,tweet.getId());
+                }
+                else {
+                    publishTweet(tweetContent,null);
+                }
             }
         });
 
@@ -61,9 +68,9 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 
-    public void publishTweet(String tweetContent) {
+    public void publishTweet(String tweetContent, String replyTo) {
         // Make an API call to Twitter to publish the tweet
-        client.publishTweet(tweetContent, null, new JsonHttpResponseHandler() {
+        client.publishTweet(tweetContent, replyTo, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 try {
@@ -71,7 +78,6 @@ public class ComposeActivity extends AppCompatActivity {
                     Log.i(TAG, "Published tweet says: " + tweet);
                     Intent intent = new Intent(ComposeActivity.this, TimelineActivity.class);
                     intent.putExtra("tweet", Parcels.wrap(tweet));
-                    // set result and bundle code for response
                     setResult(RESULT_OK, intent);
                     finish();
                 } catch (JSONException e) {

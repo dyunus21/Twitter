@@ -30,7 +30,7 @@ import okhttp3.Headers;
 public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
-    private final int REQUEST_CODE = 20;
+    public static final int REQUEST_CODE = 20;
     ActivityTimelineBinding binding;
     TwitterClient client;
     List<Tweet> tweets;
@@ -75,6 +75,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onRefresh() {
                 tweets.clear();
                 populateHomeTimeline(null);
+                swipeContainer.setRefreshing(false);
             }
         });
 
@@ -131,6 +132,7 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             adapter.notifyItemInserted(0);
             binding.rvTweets.scrollToPosition(0);
+//            swipeContainer.setRefreshing(true);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -145,8 +147,10 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess! " + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    adapter.clear();
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
+                    binding.rvTweets.scrollToPosition(0);
                     swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "JSON Exception", e);
